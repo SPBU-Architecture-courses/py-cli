@@ -25,3 +25,8 @@ This project is developed as part of the "Architecture and Design of Information
 - [Nikita Fomin](https://github.com/heartmarshall)
 - [Mark]()
 - [Viktor Zakharov](https://github.com/vatican1)
+
+
+## Additional Resources
+Below are the resources used during the development process, including helpful articles, books, and example projects:
+The Architecture of Open Source Applications (Volume 1), The Bourne-Again Shell: article about bash architecture

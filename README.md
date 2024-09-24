@@ -17,7 +17,44 @@ Additionally, the interpreter supports command history, suggestions, and autocom
 Built-in commands include `cat`, `echo`, `wc`, `pwd`, `exit`, and `grep`. All other commands are executed by searching directories listed in the `PATH` environment variable.
 
 ## Installation
-TODO
+
+
+### Setup environment
+
+1. Install **Poetry** 
+
+```sh
+sudo apt install python3-poetry
+```
+
+2. (for Ubuntu) Install  **Cachecontrol** 
+
+```sh
+sudo apt install python3-cachecontrol
+```
+
+3. Create virtual environment
+```sh
+python3.10 -m venv .venv
+```
+
+4. Activate virtual environment
+```sh
+poetry shell
+```
+
+5. Install dependencies with **Poetry**
+
+```sh
+poetry install
+```
+
+### Build
+
+> todo
+
+### Run
+> todo
 
 ## Development Team
 

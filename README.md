@@ -49,6 +49,12 @@ poetry shell
 poetry install
 ```
 
+6. Install  **Pre-commit**
+
+```sh
+pre-commit install
+```
+
 ### Build
 
 > todo

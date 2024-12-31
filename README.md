@@ -32,6 +32,8 @@
 
 ```
 python3 -m unittest tests/commands_test.py
+python3 -m unittest tests/parser_test.py
+python3 -m unittest tests/state_test.py
 ```
 
 ## Запуск CLI

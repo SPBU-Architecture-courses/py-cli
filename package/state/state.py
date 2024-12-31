@@ -3,6 +3,7 @@ import subprocess
 from typing import Dict, List
 from  package.commands.commands import StateCommands, Command, CommandError
 
+
 class State:
     def __init__(self, state_commands):
         self.state_commands: StateCommands = state_commands
@@ -56,6 +57,15 @@ class State:
                 except Exception as e:
                     self._renew_return_code(1)
                     raise CommandError(f"Непредвиденная ошибка при выполнении команды '{cmd_name}': {e}")
+                continue
+
+            if "=" in cmd_name:
+                after_spl = cmd_name.split("=")
+                if len(after_spl) != 2:
+                    self._renew_return_code(239)
+                    raise CommandError(f"Ошибка создания переменной")
+                self.global_variables[after_spl[0]] = after_spl[1]
+                self.state_commands.prev_command_output = ""
                 continue
 
             # Выполнение внешней команды

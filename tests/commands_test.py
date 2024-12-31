@@ -1,4 +1,5 @@
 import unittest
+import os
 from unittest.mock import patch
 from package.commands.commands import StateCommands, CommandError
 

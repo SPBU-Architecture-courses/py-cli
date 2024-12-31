@@ -84,5 +84,11 @@ class TestState(unittest.TestCase):
         self.assertEqual(self.state.prev_return_code, 1)
         self.assertIn("Непредвиденная ошибка при выполнении команды 'builtin_cmd': Unexpected error", str(context.exception))
 
+    def test_commands_equal(self):
+        result = [Command(command='grep', arguments=["'pattern'", 'file.txt'])]
+        expected = [Command(command='grep', arguments=["'pattern'", 'file.txt'])]
+        self.assertEqual(result, expected)
+
+
 if __name__ == '__main__':
     unittest.main()

@@ -1,5 +1,6 @@
 import os
 from typing import List, Optional
+import re
 from dataclasses import dataclass
 
 @dataclass
@@ -24,6 +25,8 @@ class StateCommands:
             "wc": self.wc,
             "pwd": self.pwd,
             "grep": self.grep,
+            "cd": self.cd,
+            "ls": self.ls,
             "exit": self.exit_command
         }
 
@@ -260,6 +263,26 @@ class StateCommands:
 
         except re.error as e:
             raise CommandError(f"Invalid regex pattern: {e}")
+        
+    def cd(self, args: List[str]) -> str:
+        if len(args) != 1:
+            raise RuntimeError("cd: требуется ровно один аргумент")
+        try:
+            os.chdir(args[0])
+            return ""
+        except FileNotFoundError:
+            raise RuntimeError(f"cd: директория не найдена: {args[0]}")
+        except Exception as e:
+            raise RuntimeError(f"cd: ошибка: {e}")
+        
+    def ls(self, args: List[str]) -> str:
+        try:
+            directory = args[0] if args else os.getcwd()
+            return '\n'.join(os.listdir(directory))
+        except FileNotFoundError:
+            raise RuntimeError(f"ls: директория не найдена: {args[0]}")
+        except Exception as e:
+            raise RuntimeError(f"ls: ошибка: {e}")
 
     def reset(self):
         self.prev_command_output = ""

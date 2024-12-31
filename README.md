@@ -1,75 +1,52 @@
-# PyCLI Project
+# Проект PyCLI
 
-**PyCLI** is a command-line interpreter written in Python.
+Репозиторий с материлами проекта по курсу СПбГУ МКН РПО Арихитектура и Проектирование Информационных систем
 
-## Overview
+**PyCLI** — это интерпретатор командной строки, написанный на Python.
 
-The PyCLI interpreter is similar to Bash, supporting most essential CLI functionality, including:
+## Обзор
 
-- **Environment management**: creation of new variables (commands like `name=value`, `$` operator)
-- **Single and double quotes**: full and weak quoting
-- **Pipelines**: connecting commands via pipes (`|`)
-- **External program execution**
-- **Input/output redirection**
+Интерпретатор PyCLI похож на Bash и поддерживает основные функции командной строки, включая:
 
-Additionally, the interpreter supports command history, suggestions, and autocomplete during input.
+- **Управление переменными окружения**: создание новых переменных (команды вроде `name=value`, оператор `$`)
+- **Пайпы**: соединение команд с помощью трубопроводов (`|`)
+- **Выполнение внешних программ**
+- **Перенаправление ввода/вывода**
 
-Built-in commands include `cat`, `echo`, `wc`, `pwd`, `exit`, and `grep`. All other commands are executed by searching directories listed in the `PATH` environment variable.
+Встроенные команды включают `cat`, `echo`, `wc`, `pwd`, `exit` и `grep`. Все остальные команды выполняются путём поиска в каталогах, указанных в переменной окружения `PATH`.
 
-## Installation
+## Зависимости
 
+Для работы проекта необходимы следующие библиотеки и модули Python:
 
-### Setup environment
+- `unittest` — модуль для написания и выполнения тестов.
+- `os` — стандартный модуль для взаимодействия с операционной системой.
+- `re` — модуль для работы с регулярными выражениями.
+- `sys` — модуль для работы с параметрами командной строки и взаимодействия с интерпретатором.
+- `logging` — модуль для логирования событий.
+- `typing` — модуль для аннотаций типов (например, для использования `List`, `Dict` и других типов).
 
-1. Install **Poetry** 
+Эти зависимости включены в стандартную библиотеку Python, так что вам не нужно устанавливать их отдельно.
 
-```sh
-sudo apt install python3-poetry
+## Запуск тестов
+
+```
+python3 -m unittest tests/commands_test.py
 ```
 
-2. (for Ubuntu) Install  **Cachecontrol** 
+## Запуск CLI
 
-```sh
-sudo apt install python3-cachecontrol
+```
+python3 main.py
 ```
 
-3. Create virtual environment
-```sh
-python3.10 -m venv .venv
-```
+## Команда разработки
 
-4. Activate virtual environment
-```sh
-poetry shell
-```
-
-5. Install dependencies with **Poetry**
-
-```sh
-poetry install
-```
-
-6. Install  **Pre-commit**
-
-```sh
-pre-commit install
-```
-
-### Build
-
-> todo
-
-### Run
-> todo
-
-## Development Team
-
-This project is developed as part of the "Architecture and Design of Information Systems" course by students of the Faculty of Mathematics and Computer Science at Saint Petersburg State University:
-- [Nikita Fomin](https://github.com/heartmarshall)
+Данный проект разработан в рамках курса «Архитектура и проектирование информационных систем» студентами факультета математики и информатики Санкт-Петербургского государственного университета:
 - [Mark Bezmaslov](https://github.com/mark47B)
 - [Viktor Zakharov](https://github.com/vatican1)
 
 ## Additional Resources
-Below are the resources used during the development process, including helpful articles, books, and example projects:
+Ниже представлены ресурсы, использованные в процессе разработки, включая полезные статьи, книги и примеры проектов:
 The Architecture of Open Source Applications (Volume 1), The Bourne-Again Shell: [article about bash architecture](https://aosabook.org/en/v1/bash.html)
 

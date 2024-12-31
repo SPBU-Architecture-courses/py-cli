@@ -136,6 +136,97 @@ class TestStateCommands(unittest.TestCase):
         self.assertEqual(result, expected_output)
         self.assertEqual(self.commands.prev_command_output, expected_output)
         mock_file.assert_called_with('file.txt', 'r', encoding='utf-8')
+    
+    @patch('os.chdir')
+    def test_cd_success(self, mock_chdir):
+        args = ['package']
+        result = self.commands.cd(args)
+        mock_chdir.assert_called_once_with('package')
+        self.assertEqual(result, "")
+
+    def test_cd_invalid_number_of_args_multiple(self):
+        args = ['dir1', 'dir2']
+        with self.assertRaises(RuntimeError) as context:
+            self.commands.cd(args)
+        self.assertEqual(str(context.exception), "cd: требуется ровно один аргумент")
+
+    @patch('os.chdir', side_effect=FileNotFoundError)
+    def test_cd_directory_not_found(self, mock_chdir):
+        args = ['non_existent_directory']
+        with self.assertRaises(RuntimeError) as context:
+            self.commands.cd(args)
+        self.assertEqual(str(context.exception), "cd: директория не найдена: non_existent_directory")
+
+    @patch('os.listdir')
+    @patch('os.getcwd')
+    def test_ls_no_args(self, mock_getcwd, mock_listdir):
+        mock_getcwd.return_value = './'
+        mock_listdir.return_value = ['file1.txt', 'file2.txt', 'dir1']
+
+        result = self.commands.ls([])
+
+        mock_getcwd.assert_called_once()
+        mock_listdir.assert_called_once_with('./')
+        expected_output = 'file1.txt\nfile2.txt\ndir1'
+        self.assertEqual(result, expected_output)
+
+    @patch('os.listdir')
+    def test_ls_with_valid_directory(self, mock_listdir):
+        args = ['/valid/directory']
+        mock_listdir.return_value = ['fileA.py', 'fileB.py', 'script.sh']
+
+        result = self.commands.ls(args)
+
+        mock_listdir.assert_called_once_with('/valid/directory')
+        expected_output = 'fileA.py\nfileB.py\nscript.sh'
+        self.assertEqual(result, expected_output)
+
+    @patch('os.listdir', side_effect=FileNotFoundError)
+    def test_ls_directory_not_found(self, mock_listdir):
+        args = ['/non/existent/directory']
+
+        with self.assertRaises(RuntimeError) as context:
+            self.commands.ls(args)
+
+        mock_listdir.assert_called_once_with('/non/existent/directory')
+        self.assertEqual(str(context.exception), "ls: директория не найдена: /non/existent/directory")
+
+    @patch('os.listdir', side_effect=PermissionError("Нет доступа"))
+    def test_ls_permission_error(self, mock_listdir):
+        args = ['/protected/directory']
+
+        with self.assertRaises(RuntimeError) as context:
+            self.commands.ls(args)
+
+        mock_listdir.assert_called_once_with('/protected/directory')
+        self.assertEqual(str(context.exception), "ls: ошибка: Нет доступа")
+
+    @patch('os.listdir')
+    @patch('os.getcwd')
+    def test_ls_empty_directory(self, mock_getcwd, mock_listdir):
+        mock_getcwd.return_value = '/empty/directory'
+        mock_listdir.return_value = []
+
+        result = self.commands.ls([])
+
+        mock_getcwd.assert_called_once()
+        mock_listdir.assert_called_once_with('/empty/directory')
+        expected_output = ''
+        self.assertEqual(result, expected_output)
+
+    @patch('os.listdir')
+    def test_ls_with_multiple_arguments(self, mock_listdir):
+        # Предположим, что функция должна принимать ровно один аргумент
+        args = ['/dir1', '/dir2']
+        # В данном случае, функция будет использовать args[0], то есть '/dir1'
+        mock_listdir.return_value = ['item1', 'item2']
+
+        result = self.commands.ls(args)
+
+        mock_listdir.assert_called_once_with('/dir1')
+        expected_output = 'item1\nitem2'
+        self.assertEqual(result, expected_output)
+    
 
 if __name__ == '__main__':
     unittest.main()

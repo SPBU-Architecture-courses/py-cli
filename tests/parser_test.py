@@ -23,6 +23,27 @@ class TestParseCommandLine(unittest.TestCase):
         result = parse_command_line(input_str)
         self.assertEqual(result, expected)
 
+
+    def test_multiple_commands(self):
+        input_str = "cd /var | ls -la | grep 'txt'"
+        expected = [
+            Command(command="cd", arguments=["/var"]),
+            Command(command="ls", arguments=["-la"]),
+            Command(command="grep", arguments=["'txt'"])
+        ]
+        result = parse_command_line(input_str)
+        self.assertEqual(result, expected)
+
+    def test_commands_with_extra_spaces(self):
+        input_str = "  mkdir test  |   cd test  | touch file.txt  "
+        expected = [
+            Command(command="mkdir", arguments=["test"]),
+            Command(command="cd", arguments=["test"]),
+            Command(command="touch", arguments=["file.txt"])
+        ]
+        result = parse_command_line(input_str)
+        self.assertEqual(result, expected)
+
     def test_empty_commands_between_pipes(self):
         input_str = "echo 'Start' || echo 'End'"
         expected = [
